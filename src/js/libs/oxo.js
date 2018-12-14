@@ -1,6 +1,96 @@
 window.oxo = {
   oxo: this,
 
+  animation: {
+    /**
+     * Modify the transform property of an element to make it move
+     * @param {HTMLElement} element - The element to move
+     * @param {string} direction - The direction (left, up, right, down)
+     * @param {number} distance - The number of pixels for the move
+     */
+    move(element, direction, distance) {
+      if (!element) {
+        console.error('The element to move was not found');
+        return;
+      }
+
+      if (!distance) {
+        console.error('You must provide a distance to move an element');
+        return;
+      }
+
+      var position = oxo.animation.getPosition(element);
+      var updatedPosition = oxo.animation.computeNewPosition(
+        position,
+        direction,
+        distance
+      );
+
+      oxo.animation.setPosition(element, position);
+    },
+
+    /**
+     * Modify a position object depending on direction and distance
+     * @param {Object} position - An object containing the x and y position
+     * @param {*} direction - The direction in which to move
+     * @param {*} distance - The distance to move
+     */
+    computeNewPosition(position, direction, distance) {
+      switch (direction) {
+        case 'left':
+          position.x -= distance;
+          break;
+        case 'up':
+          position.y -= distance;
+          break;
+        case 'right':
+          position.x += distance;
+          break;
+        case 'down':
+          position.y += distance;
+          break;
+        default:
+          console.error('The direction provided is not valid');
+          return;
+      }
+    },
+
+    /**
+     * Get the values of the translate property for the given element
+     * @param {HTMLElement} element - The element
+     * @return {Object} An object containing the x and the y position
+     */
+    getPosition(element) {
+      var position = element.style.transform.match(
+        new RegExp(/translate\(.+\)/)
+      );
+
+      if (position) {
+        var values = position[0].match(/\d+/g).map(value => parseInt(value));
+        return {
+          x: values[0],
+          y: values[1],
+        };
+      } else {
+        return { x: 0, y: 0 };
+      }
+    },
+
+    /**
+     * Set the translate property of the given element
+     * @param {HTMLElement} element - The element to move
+     * @param {Object} position - An object containing the x and y values
+     * @return {string} - The updated transform property
+     */
+    setPosition(element, position) {
+      var transform = element.style.transform.replace(/translate\(.+\)/, '');
+
+      var translation = 'translate(' + position.x + 'px, ' + position.y + 'px)';
+
+      return (element.style.transform = transform + translation);
+    },
+  },
+
   inputs: {
     keys: {
       enter: 13,
@@ -53,14 +143,32 @@ window.oxo = {
 
       if (!code) {
         console.error('The key "' + code + '" cannot be found');
-
-        return false;
+        return;
       }
 
       oxo.inputs.keysListeners[code] = {
-        action: action,
+        action: action.bind(this, key),
         once: once,
       };
+    },
+
+    /**
+     * Execute the given action each time one of the given key is pressed
+     * @param {Array<string>} keys - The keys that should trigger the action
+     * @param {Function} action - The action to execute
+     */
+    listenKeys(keys, action) {
+      keys.forEach(function(key) {
+        oxo.inputs.listenKey(key, action);
+      });
+    },
+
+    /**
+     * Execute the given action each time an arrow key is pressed
+     * @param {Function} action - The action to execute
+     */
+    listenArrowKeys(action) {
+      oxo.inputs.listenKeys(['left', 'up', 'right', 'down'], action);
     },
 
     /**
@@ -81,9 +189,24 @@ window.oxo = {
     },
 
     /**
+     * Cancel the listeners for several keys
+     * @param {Array<string>} - The keys to stop listening to
+     */
+    cancelKeysListeners(keys) {
+      keys.forEach(function(key) {
+        oxo.inputs.cancelKeysListener(key);
+      });
+    },
+
+    /** Cancel the listening of arrow keys */
+    cancelArrowKeysListeners() {
+      oxo.inputs.cancelKeysListener(['left', 'up', 'right', 'down']);
+    },
+
+    /**
      * This method will be executed on initialization to listen all the keys
      */
-    listenKeys() {
+    listenAllKeys() {
       document.addEventListener('keydown', function(event) {
         listener = oxo.inputs.keysListeners[event.keyCode];
         if (listener) {
@@ -184,7 +307,7 @@ window.oxo = {
    */
   init() {
     oxo.screens.loadScreen('home');
-    oxo.inputs.listenKeys();
+    oxo.inputs.listenAllKeys();
     oxo.player.setScore(0);
   },
 
@@ -193,10 +316,7 @@ window.oxo = {
    * @param {string} message - The information to log
    */
   log(message) {
-    console.log(
-      '%c OXO: ' + message,
-      'background-color: crimson; color: white; padding: 5px'
-    );
+    console.log('%c OXO: ' + message, 'background-color: gold; padding: 5px');
   },
 
   /**
