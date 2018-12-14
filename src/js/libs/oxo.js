@@ -97,32 +97,6 @@ window.oxo = {
     },
   },
 
-  interface: {
-    /**
-     * Define an element in which to show the score
-     * @param {HTMLElement} element - The HTML element hosting the score
-     * @return {HTMLElement} element - The HTML element hosting the score
-     */
-    setScoreElement(element) {
-      if (!element) {
-        console.error('The element given to display the score is not valid');
-
-        return false;
-      }
-      oxo.interface.scoreElement = element;
-      oxo.interface.refreshScore();
-    },
-
-    /**
-     * Update the score element content if it exits
-     */
-    refreshScore() {
-      if (oxo.interface.scoreElement) {
-        oxo.interface.scoreElement.innerText = oxo.player.getScore();
-      }
-    },
-  },
-
   player: {
     /**
      * Add one or several points to the score
@@ -164,9 +138,20 @@ window.oxo = {
       localStorage.setItem('score', points);
       oxo.log('New score is ' + points);
 
-      oxo.interface.refreshScore();
+      oxo.player.refreshScore();
 
       return points;
+    },
+
+    /**
+     * Refresh the score display
+     */
+    refreshScore() {
+      var scoreElement = oxo.getElement('score');
+
+      if (scoreElement) {
+        scoreElement.innerText = oxo.player.getScore();
+      }
     },
   },
 
@@ -183,6 +168,7 @@ window.oxo = {
             document.body.innerHTML = html;
             document.body.setAttribute('class', name);
             oxo.log('Load screen ' + name);
+            oxo.player.refreshScore();
 
             if (action) {
               action.call();
@@ -211,6 +197,14 @@ window.oxo = {
       '%c OXO: ' + message,
       'background-color: crimson; color: white; padding: 5px'
     );
+  },
+
+  /**
+   * Find an element with an oxo data attribute in the DOM
+   * @param {string} attribute - The data attribute of the element (oxo-data-*)
+   */
+  getElement(attribute) {
+    return document.querySelector('[data-oxo-' + attribute + ']');
   },
 };
 
