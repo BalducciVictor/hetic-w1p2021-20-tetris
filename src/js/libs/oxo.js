@@ -79,6 +79,22 @@ window.oxo = {
     cancelKeyListener(key) {
       delete oxo.inputs.keysListeners[oxo.inputs.keys[key]];
     },
+
+    /**
+     * This method will be executed on initialization to listen all the keys
+     */
+    listenKeys() {
+      document.addEventListener('keydown', function(event) {
+        listener = oxo.inputs.keysListeners[event.keyCode];
+        if (listener) {
+          listener.action();
+
+          if (listener.once) {
+            delete oxo.inputs.keysListeners[event.keyCode];
+          }
+        }
+      });
+    },
   },
 
   interface: {
@@ -154,22 +170,36 @@ window.oxo = {
     },
   },
 
+  screens: {
+    /**
+     * Load a new screen (and add matching class to the body)
+     * @param {string} name - The name of the html file for the screen to load
+     * @param {Function} action - The function to execute after loading
+     */
+    loadScreen(name, action) {
+      fetch('../../screens/' + name + '.html').then(function(response) {
+        if (response.ok) {
+          response.text().then(function(html) {
+            document.body.innerHTML = html;
+            document.body.setAttribute('class', name);
+            oxo.log('Load screen ' + name);
+
+            if (action) {
+              action.call();
+            }
+          });
+        }
+      });
+    },
+  },
+
   /**
    * A function that will be run when oxo is called in order to init the game
    */
   init() {
-    localStorage.setItem('score', '0');
-
-    document.addEventListener('keydown', function(event) {
-      listener = oxo.inputs.keysListeners[event.keyCode];
-      if (listener) {
-        listener.action();
-
-        if (listener.once) {
-          delete oxo.inputs.keysListeners[event.keyCode];
-        }
-      }
-    });
+    oxo.screens.loadScreen('home');
+    oxo.inputs.listenKeys();
+    oxo.player.setScore(0);
   },
 
   /**
