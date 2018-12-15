@@ -56,6 +56,73 @@ oxo.screens.loadScreen('game', function() {
 });
 ```
 
+#### Elements
+
+These function allow to create and observe elements.
+
+##### `createElement`
+
+Create an element and insert it into the document.
+
+```
+oxo.elements.createElement({
+  type: 'div', // optional
+  class: 'my-element' // optional,
+  styles: { // optional
+    transform: 'translate(50px, 50px)
+  },
+  appendTo: 'body' // optional
+});
+
+// div.my-element is appended to the document
+```
+
+##### `onCollisionWithBorder`
+
+Detect the collision between an element and the border of the screen, and executes the given action.
+
+```
+var character = document.getElementById('character');
+oxo.elements.onCollisionWithBorder(character, function() {
+  // Character is leaving the screen
+});
+```
+
+#### Animation
+
+These function allow to manipulate the elements of the screen. For a better experience using `OXO`, you should use `transform: translate()` to set the position of your elements.
+
+##### `getPosition`
+
+Get the position of an element (the values of the transform property).
+
+```
+var character = document.getElementById('character');
+var position = oxo.animation.getPosition(character);
+console.log(position.x); // 10
+console.log(position.y); // 0
+```
+
+##### `setPosition`
+
+Set the position of an element by passing an x and an y value.
+
+```
+var character = document.getElementById('character');
+oxo.animation.setPosition(character, {x: 10, y: 0});
+```
+
+##### `move`
+
+Move an element in a given direction with a given distance (by modifying its transform property).
+
+```
+var character = document.getElementById('character');
+oxo.animation.move(character, 'right', 10); // Move 10px to the right
+```
+
+The direction can be `left`, `top`, `right` or `down`.
+
 #### Player
 
 These functions allow to handle informations related to the player.
@@ -102,11 +169,31 @@ Execute the given action each time the given key is pressed.
 
 ```
 oxo.inputs.listenKey('enter', function() {
-  // do something each time enter is pressed'
+  // do something
 });
 ```
 
 The keys that can be listened to are `enter`, `space`, `left`, `up`, `right`, `down` and `a` to `z`.
+
+##### `listenKeys`
+
+Same as `listenKey`, but with several keys that can be pressed. The key that was pressed is available in the callback function.
+
+```
+oxo.inputs.listenKeys(['up', 'down], function(key) {
+  console.log(key); // 'up' or 'down';
+});
+```
+
+##### `listenArrowKeys`
+
+Same as `listenKeys`, but with each arrow key (`left`, `up`, `right`, `down`).
+
+```
+oxo.inputs.listenArrowKeys(function(key) {
+  console.log(key); // `left`, `up`, `right` or `down`;
+});
+```
 
 ##### `listenKeyOnce`
 
@@ -124,6 +211,34 @@ Stop listening for a key.
 
 ```
 oxo.inputs.cancelKeyListener('enter');
+```
+
+##### `cancelKeysListeners`
+
+Stop listening for several keys.
+
+```
+oxo.inputs.cancelKeysListeners(['up', 'down']);
+```
+
+##### `cancelArrowKeysListeners`
+
+Stop listening for the arrow keys.
+
+```
+oxo.inputs.cancelArrowKeysListeners();
+```
+
+#### Utils
+
+Some utility functions.
+
+##### `getRandomNumber`
+
+Get a random number between two numbers.
+
+```
+oxo.utils.getRandomNumber(1, 3); // 1, 2 or 3
 ```
 
 ### Data attributes

@@ -66,7 +66,7 @@ window.oxo = {
       );
 
       if (position) {
-        var values = position[0].match(/\d+/g).map(value => parseInt(value));
+        var values = position[0].match(/-?\d+/g).map(value => parseInt(value));
         return {
           x: values[0],
           y: values[1],
@@ -89,6 +89,78 @@ window.oxo = {
 
       return (element.style.transform = transform + translation);
     },
+  },
+
+  elements: {
+    /**
+     * Create an HTML element
+     * @param {*} params - An object containing the element parameters
+     * @return {HTMLElement} The created element
+     */
+    createElement(params) {
+      var element = document.createElement(params.type ? params.type : 'div');
+
+      if (params.class) {
+        params.class.split(' ').forEach(function(className) {
+          element.classList.add(className);
+        });
+      }
+
+      if (params.styles) {
+        for (style in params.styles) {
+          element.style[style] = params.styles[style];
+        }
+      }
+
+      if (params.appendTo) {
+        oxo.elements.appendElement(element, params.appendTo);
+      }
+
+      return element;
+    },
+
+    /**
+     * Append an element inside another one
+     * @param {HTMLElement} element - The element to append
+     * @param {string} hostSelector - The string to select the host element
+     */
+    appendElement(element, hostSelector) {
+      var host = hostSelector
+        ? document.querySelector(hostSelector)
+        : document.body;
+
+      if (!host) {
+        console.error('No element was found for selector ', +hostSelector);
+        return;
+      }
+
+      host.appendChild(element);
+    },
+
+    /**
+     * Execute an action when the given element collides with the screen border
+     * @param {HTMLElement} element - The element to observe
+     * @param {Function} action - The action to execute
+     */
+    onCollisionWithBorder(element, action) {
+      var observer = new IntersectionObserver(
+        function(entries) {
+          entries.forEach(function(entry) {
+            if (!entry.isIntersecting) {
+              action();
+            }
+          });
+        },
+        {
+          root: null,
+          rootMargin: '0px',
+          threshold: 0,
+        }
+      );
+      observer.observe(element);
+    },
+
+    onCollisionWithElement(element, target, action) {},
   },
 
   inputs: {
@@ -299,6 +371,18 @@ window.oxo = {
           });
         }
       });
+    },
+  },
+
+  utils: {
+    /**
+     * Get a random number between two limits
+     * @param {number} min - The min number
+     * @param {number} max - The max number
+     * @return {number} - The random number
+     */
+    getRandomNumber(min, max) {
+      return Math.floor(Math.random() * (max - min + 1) + min);
     },
   },
 
