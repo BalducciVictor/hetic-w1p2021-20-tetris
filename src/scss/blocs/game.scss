@@ -1,0 +1,29 @@
+.game__square {
+  width: 40px;
+  height: 40px;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.game__square--head,
+.game__square--tail {
+  background-color: green;
+  z-index: 1;
+}
+
+.game__square--bonus {
+  background-color: red;
+}
+
+.game__score {
+  opacity: 0.5;
+  font-size: 200px;
+  height: 100vh;
+  font-family: monospace;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: -1;
+}

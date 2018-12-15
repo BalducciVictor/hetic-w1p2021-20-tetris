@@ -1,0 +1,12 @@
+.home {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-family: monospace;
+}
+
+.home__title {
+  font-size: 32px;
+}

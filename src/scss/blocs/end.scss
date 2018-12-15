@@ -1,0 +1,17 @@
+.end {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-family: monospace;
+}
+
+.end__title {
+  font-size: 32px;
+}
+
+.end__score {
+  font-size: 32px;
+  margin: 20px;
+}
