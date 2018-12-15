@@ -112,9 +112,7 @@ window.oxo = {
         }
       }
 
-      if (params.appendTo) {
-        oxo.elements.appendElement(element, params.appendTo);
-      }
+      oxo.elements.appendElement(element, params.appendTo);
 
       return element;
     },
@@ -421,6 +419,7 @@ window.oxo = {
   },
 
   screens: {
+    currentScreen: '',
     /**
      * Load a new screen (and add matching class to the body)
      * @param {string} name - The name of the html file for the screen to load
@@ -441,6 +440,14 @@ window.oxo = {
           });
         }
       });
+    },
+
+    /**
+     * Get the name of the current screen
+     * @return {string} the current screen
+     */
+    getCurrentScreen() {
+      return oxo.screens.currentScreen;
     },
   },
 

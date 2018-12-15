@@ -56,6 +56,14 @@ oxo.screens.loadScreen('game', function() {
 });
 ```
 
+##### `getCurrentScreen`
+
+Get the name of the current screen.
+
+```
+oxo.screens.getCurrentScreen(); // 'home'
+```
+
 #### Elements
 
 These function allow to create and observe elements.
