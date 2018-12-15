@@ -138,29 +138,99 @@ window.oxo = {
     },
 
     /**
-     * Execute an action when the given element collides with the screen border
+     * Execute an action when the given element collides with the border
      * @param {HTMLElement} element - The element to observe
      * @param {Function} action - The action to execute
+     * @param {boolean} once - If true, the action will be executed only once
+     * @return {IntersectionObserver} - The observer
      */
-    onCollisionWithBorder(element, action) {
+    onCollisionWithBorder(element, action, once) {
       var observer = new IntersectionObserver(
         function(entries) {
           entries.forEach(function(entry) {
             if (!entry.isIntersecting) {
               action();
+              observer.disconnect();
             }
           });
         },
         {
           root: null,
           rootMargin: '0px',
-          threshold: 0,
+          threshold: 1.0,
         }
       );
       observer.observe(element);
+
+      return observer;
     },
 
-    onCollisionWithElement(element, target, action) {},
+    /**
+     * Execute an action once the given element collides with the border
+     * @param {HTMLElement} element - The element to observe
+     * @param {Function} action - The action to execute
+     * @return {IntersectionObserver} - The observer
+     */
+    onCollisionWithBorderOnce(element, action) {
+      return oxo.elements.onCollisionWithBorder(element, action, true);
+    },
+
+    /**
+     * Execute an action when two element collides
+     * @param {HTMLElement} element - The element to observe
+     * @param {HTMLElement} target - The element to collide with
+     * @param {Function} action - The action to execute
+     * @param {boolean} once - If true, the action is executed only once
+     * @return {Interval} - The timer used for checking
+     */
+    onCollisionWithElement(element, target, action, once) {
+      var colliding = false;
+
+      var interval = setInterval(function() {
+        if (oxo.elements.elementsAreColliding(element, target)) {
+          if (!colliding) {
+            action();
+            colliding = true;
+
+            if (once) {
+              clearInterval(interval);
+            }
+          }
+        } else {
+          colliding = false;
+        }
+      }, 10);
+
+      return interval;
+    },
+
+    /**
+     * Execute an action once when two element collides
+     * @param {HTMLElement} element - The element to observe
+     * @param {HTMLElement} target - The element to collide with
+     * @param {Function} action - The action to execute
+     * @return {Interval} - The timer used for checking
+     */
+    onCollisionWithElementOnce(element, target, action) {
+      return oxo.elements.onCollisionWithElement(element, target, action, true);
+    },
+
+    /**
+     * Test if two elements are in collision
+     * @param {HTMLElement} element1 - The first element
+     * @param {HTMLElement} element2 - The second element
+     */
+    elementsAreColliding(element1, element2) {
+      var element1Pos = element1.getBoundingClientRect();
+      var element2Pos = element2.getBoundingClientRect();
+
+      return (
+        element1Pos.x < element2Pos.x + element2Pos.width &&
+        element1Pos.x + element1Pos.width > element2Pos.x &&
+        element1Pos.y < element2Pos.y + element2Pos.height &&
+        element1Pos.height + element1Pos.y > element2Pos.y
+      );
+    },
   },
 
   inputs: {

@@ -62,10 +62,10 @@ These function allow to create and observe elements.
 
 ##### `createElement`
 
-Create an element and insert it into the document.
+Create an element and insert it into the document. The function returns the created element.
 
 ```
-oxo.elements.createElement({
+var element = oxo.elements.createElement({
   type: 'div', // optional
   class: 'my-element' // optional,
   styles: { // optional
@@ -74,7 +74,7 @@ oxo.elements.createElement({
   appendTo: 'body' // optional
 });
 
-// div.my-element is appended to the document
+// element is appended to the document
 ```
 
 ##### `onCollisionWithBorder`
@@ -85,6 +85,41 @@ Detect the collision between an element and the border of the screen, and execut
 var character = document.getElementById('character');
 oxo.elements.onCollisionWithBorder(character, function() {
   // Character is leaving the screen
+});
+```
+
+##### `onCollisionWithBorderOnce`
+
+Same as `onCollisionWithBorder`, but the action will be executed only once. Better for performance.
+
+```
+var character = document.getElementById('character');
+oxo.elements.onCollisionWithBorderOnce(character, function() {
+  // Character is leaving the screen
+});
+```
+
+##### `onCollisionWithElement`
+
+Detect the collision between an element and a target, and executes the given action.
+
+```
+var character = document.getElementById('character');
+var ennemy = document.getElementById('ennemy');
+oxo.elements.onCollisionWithElement(character, ennemy, function() {
+  // Character is touched by ennemy
+});
+```
+
+##### `onCollisionWithElementOnce`
+
+Same as `onCollisionWithElement`, but the action will be executed only once. Better for performance.
+
+```
+var character = document.getElementById('character');
+var ennemy = document.getElementById('ennemy');
+oxo.elements.onCollisionWithElementOnce(character, ennemy, function() {
+  // Character is touched by ennemy
 });
 ```
 
