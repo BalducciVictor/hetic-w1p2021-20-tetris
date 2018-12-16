@@ -7,6 +7,7 @@ window.oxo = {
      * @param {HTMLElement} element - The element to move
      * @param {string} direction - The direction (left, up, right, down)
      * @param {number} distance - The number of pixels for the move
+     * @return {Object} - An object containing the updated position x and y
      */
     move(element, direction, distance) {
       if (!element) {
@@ -20,39 +21,45 @@ window.oxo = {
       }
 
       var position = oxo.animation.getPosition(element);
-      var updatedPosition = oxo.animation.computeNewPosition(
+      var newPosition = oxo.animation.computeNewPosition(
         position,
         direction,
         distance
       );
 
-      oxo.animation.setPosition(element, position);
+      oxo.animation.setPosition(element, newPosition);
+
+      return newPosition;
     },
 
     /**
      * Modify a position object depending on direction and distance
      * @param {Object} position - An object containing the x and y position
-     * @param {*} direction - The direction in which to move
-     * @param {*} distance - The distance to move
+     * @param {string} direction - The direction in which to move
+     * @param {number} distance - The distance to move
      */
     computeNewPosition(position, direction, distance) {
+      var newPosition = Object.assign({}, position);
+
       switch (direction) {
         case 'left':
-          position.x -= distance;
+          newPosition.x -= distance;
           break;
         case 'up':
-          position.y -= distance;
+          newPosition.y -= distance;
           break;
         case 'right':
-          position.x += distance;
+          newPosition.x += distance;
           break;
         case 'down':
-          position.y += distance;
+          newPosition.y += distance;
           break;
         default:
           console.error('The direction provided is not valid');
           return;
       }
+
+      return newPosition;
     },
 
     /**
@@ -424,9 +431,10 @@ window.oxo = {
      * Load a new screen (and add matching class to the body)
      * @param {string} name - The name of the html file for the screen to load
      * @param {Function} action - The function to execute after loading
+     * @return {Promise} - The fetch promise
      */
     loadScreen(name, action) {
-      fetch('../../screens/' + name + '.html').then(function(response) {
+      return fetch('../../screens/' + name + '.html').then(function(response) {
         if (response.ok) {
           response.text().then(function(html) {
             document.body.innerHTML = html;
