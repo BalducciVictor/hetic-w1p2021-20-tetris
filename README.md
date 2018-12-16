@@ -85,24 +85,24 @@ var element = oxo.elements.createElement({
 // element is appended to the document
 ```
 
-##### `onCollisionWithBorder`
+##### `onLeaveScreen`
 
-Detect the collision between an element and the border of the screen, and executes the given action.
+Detecat the collision between an element and the border of the screen, and executes the given action.
 
 ```
 var character = document.getElementById('character');
-oxo.elements.onCollisionWithBorder(character, function() {
+oxo.elements.onLeaveScreen(character, function() {
   // Character is leaving the screen
 });
 ```
 
-##### `onCollisionWithBorderOnce`
+##### `onLeaveScreenOnce`
 
-Same as `onCollisionWithBorder`, but the action will be executed only once. Better for performance.
+Same as `onLeaveScreen`, but the action will be executed only once. Better for performance.
 
 ```
 var character = document.getElementById('character');
-oxo.elements.onCollisionWithBorderOnce(character, function() {
+oxo.elements.onLeaveScreenOnce(character, function() {
   // Character is leaving the screen
 });
 ```
@@ -157,7 +157,7 @@ oxo.animation.setPosition(character, {x: 10, y: 0});
 
 ##### `move`
 
-Move an element in a given direction with a given distance (by modifying its transform property).
+Move an element in a given direction with a given distance (by modifying its transform property). The element cannot cross the screen limits, except if you set the fourth parameter to `true`.
 
 ```
 var character = document.getElementById('character');
@@ -165,6 +165,15 @@ oxo.animation.move(character, 'right', 10); // Move 10px to the right
 ```
 
 The direction can be `left`, `top`, `right`, `down`, or an x direction combined with an y direction (eg `left-up`).
+
+##### `moveElementWithArrowKeys`
+
+Move an element when the user presses the arrow keys. The second parameter is the speed of the movement, from 1 to infinite.
+
+```
+var character = document.getElementById('character');
+oxo.animation.moveElementWithArrowKeys(character, 10); // Move the character slowly
+```
 
 #### Player
 
@@ -294,4 +303,12 @@ The element will present the current score.
 
 ```
 <div data-oxo-score></div>
+```
+
+#### `data-oxo-movable`
+
+The element will be moved when the user uses the arrow keys. Use the `data-oxo-speed` to set the speed of the movement, from 1 to infinite.
+
+```
+<div data-oxo-movable data-oxo-speed="10"></div>
 ```
