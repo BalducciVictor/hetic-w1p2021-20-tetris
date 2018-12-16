@@ -164,7 +164,7 @@ var character = document.getElementById('character');
 oxo.animation.move(character, 'right', 10); // Move 10px to the right
 ```
 
-The direction can be `left`, `top`, `right` or `down`.
+The direction can be `left`, `top`, `right`, `down`, or an x direction combined with an y direction (eg `left-up`).
 
 #### Player
 
