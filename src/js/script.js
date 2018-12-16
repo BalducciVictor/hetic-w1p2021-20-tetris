@@ -39,7 +39,7 @@ function game() {
     }
   });
 
-  oxo.elements.onCollisionWithBorderOnce(snake, end);
+  oxo.elements.onLeaveScreenOnce(snake, end);
 }
 
 function turn() {
