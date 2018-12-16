@@ -1,15 +1,18 @@
 window.oxo = {
   oxo: this,
+  width: window.innerWidth,
+  height: window.innerHeight,
 
   animation: {
     /**
      * Modify the transform property of an element to make it move
      * @param {HTMLElement} element - The element to move
-     * @param {string} direction - The direction (left, up, right, down)
+     * @param {string} direction - The direction
      * @param {number} distance - The number of pixels for the move
+     * @param {allowOutside} boolean - If true, the element can go off limits
      * @return {Object} - An object containing the updated position x and y
      */
-    move(element, direction, distance) {
+    move(element, direction, distance, allowOutside) {
       if (!element) {
         console.error('The element to move was not found');
         return;
@@ -26,6 +29,19 @@ window.oxo = {
         direction,
         distance
       );
+
+      if (!allowOutside) {
+        var elPos = element.getBoundingClientRect();
+
+        if (
+          newPosition.x + elPos.width > oxo.width ||
+          newPosition.x < 0 ||
+          newPosition.y + elPos.height > oxo.height ||
+          newPosition.y < 0
+        ) {
+          return;
+        }
+      }
 
       oxo.animation.setPosition(element, newPosition);
 
@@ -45,17 +61,35 @@ window.oxo = {
         case 'left':
           newPosition.x -= distance;
           break;
+        case 'left-up':
+          newPosition.y -= distance;
+          newPosition.x -= distance;
+          break;
         case 'up':
           newPosition.y -= distance;
+          break;
+        case 'right-up':
+          newPosition.y -= distance;
+          newPosition.x += distance;
           break;
         case 'right':
           newPosition.x += distance;
           break;
+        case 'right-down':
+          newPosition.x += distance;
+          newPosition.y += distance;
+          break;
         case 'down':
           newPosition.y += distance;
           break;
+        case 'left-down':
+          newPosition.y += distance;
+          newPosition.x -= distance;
+          break;
         default:
-          console.error('The direction provided is not valid');
+          console.error(
+            'The direction provided (' + direction + ') is not valid'
+          );
           return;
       }
 
@@ -95,6 +129,71 @@ window.oxo = {
       var translation = 'translate(' + position.x + 'px, ' + position.y + 'px)';
 
       return (element.style.transform = transform + translation);
+    },
+
+    /**
+     * Search for an element that can be moved and call the adequate function
+     * @return {HTMLElement} the element moved
+     */
+    getMovableElement() {
+      var movableElement = document.querySelector('[data-oxo-movable]');
+
+      if (movableElement) {
+        var speed = movableElement.getAttribute('data-oxo-speed');
+        speed = speed ? speed : 10;
+        oxo.animation.moveElementWithArrowKeys(movableElement, speed);
+
+        return movableElement;
+      }
+    },
+
+    /**
+     * Move an element when the user press the arrow keys
+     * @param {HTMLElement} element - The element to move
+     * @param {number} speed - The speed of the movement
+     */
+    moveElementWithArrowKeys(element, speed) {
+      var interval;
+      var pressed = [];
+      var pixels = speed > 100 ? Math.round(speed / 100) : 1;
+      console.log(pixels);
+
+      document.addEventListener('keydown', function(event) {
+        if (event.key.indexOf('Arrow') === 0) {
+          var direction = event.key.replace('Arrow', '').toLowerCase();
+
+          if (pressed.indexOf(direction) === -1) {
+            pressed.push(direction);
+
+            if (!interval) {
+              interval = setInterval(function() {
+                window.requestAnimationFrame(function() {
+                  if (pressed.length) {
+                    oxo.animation.move(
+                      element,
+                      oxo.inputs.getDirectionFromPressedKeys(pressed),
+                      pixels,
+                      false
+                    );
+                  }
+                });
+              }, 100 / speed);
+            }
+          }
+        }
+      });
+
+      document.addEventListener('keyup', function(event) {
+        if (event.key.indexOf('Arrow') === 0) {
+          var direction = event.key.replace('Arrow', '').toLowerCase();
+
+          pressed = pressed.filter(key => key !== direction);
+          if (!pressed.length) {
+            clearInterval(interval);
+            interval = null;
+          }
+        }
+      });
     },
   },
 
@@ -149,13 +248,16 @@ window.oxo = {
      * @param {boolean} once - If true, the action will be executed only once
      * @return {IntersectionObserver} - The observer
      */
-    onCollisionWithBorder(element, action, once) {
+    onLeaveScreen(element, action, once) {
       var observer = new IntersectionObserver(
         function(entries) {
           entries.forEach(function(entry) {
             if (!entry.isIntersecting) {
               action();
-              observer.disconnect();
+
+              if (once) {
+                observer.disconnect();
+              }
             }
           });
         },
@@ -176,8 +278,8 @@ window.oxo = {
      * @param {Function} action - The action to execute
      * @return {IntersectionObserver} - The observer
      */
-    onCollisionWithBorderOnce(element, action) {
-      return oxo.elements.onCollisionWithBorder(element, action, true);
+    onLeaveScreenOnce(element, action) {
+      return oxo.elements.onLeaveScreen(element, action, true);
     },
 
     /**
@@ -365,6 +467,27 @@ window.oxo = {
         }
       });
     },
+
+    /**
+     * Get the direction by combining the differents keys pressed
+     * @param {Array<string>} pressed - The direction currently pressed
+     * @return {string} the direction
+     */
+    getDirectionFromPressedKeys(pressed) {
+      var direction = pressed[0];
+
+      ['left-up', 'left-down', 'right-up', 'right-down'].forEach(function(dir) {
+        if (
+          dir.split('-').every(function(dirPart) {
+            return pressed.indexOf(dirPart) > -1;
+          })
+        ) {
+          direction = dir;
+        }
+      });
+
+      return direction;
+    },
   },
 
   player: {
@@ -441,6 +564,7 @@ window.oxo = {
             document.body.setAttribute('class', name);
             oxo.log('Load screen ' + name);
             oxo.player.refreshScore();
+            oxo.animation.getMovableElement();
 
             if (action) {
               action.call();
