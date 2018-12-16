@@ -25,7 +25,7 @@ oxo.inputs.listenKey('enter', function() {
 
 function game() {
   // Init some variables when game starts
-  direction = 'right';
+  direction = nextDirection = 'right';
   oxo.player.setScore(0);
 
   snake = document.getElementById('snake'); // Get the snake element
@@ -47,7 +47,7 @@ function turn() {
     setTail();
   }
 
-  direction = nextDirection ? nextDirection : direction; // Update the direction
+  direction = nextDirection; // Update the direction
   oxo.animation.move(snake, direction, size); // Move the snake in the right direction
   snakePosition = oxo.animation.getPosition(snake); // Update the snake position variable
 }
