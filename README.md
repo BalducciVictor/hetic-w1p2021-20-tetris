@@ -1,10 +1,13 @@
-Smog - Concept
-L’équipe
-20 - Tetris
+Smog Concept
 
-Membres de l’équipe :
-BALDUCCI Victor
-FENNANE Ryan
-SHAO Jacky
-LOUZOUN Nathanaël
-MADDI Feriel
+Equipe 20 Tétris
+
+Membres:
+Balducci Victor
+Fennane Ryan
+Shao Jacky
+Louzoun Nathanael
+Maddi Feriel
+
+Lien du jeu :
+https://balduccivictor.github.io/hetic-w1p2021-20-tetris/
