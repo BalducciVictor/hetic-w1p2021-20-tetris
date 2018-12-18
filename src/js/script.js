@@ -11,20 +11,6 @@ oxo.inputs.listenKey('space', function() {
     }
   });
 
-/*oxo.screens.loadScreen('game', function() {
-    // game.html is loaded, do something
-  });
-
-/*document.addEventListener("keypress",function (event) {
-    var key = event.keyCode;
-    if (key === 32) {
-        cloud = nextDirection = "up";
-        return true;
-        console.log('ok');
-    }   
-});
-*/
-
 function game () {
     var cloud = document.getElementById('cloud');
     var ground = document.getElementById('ground');
