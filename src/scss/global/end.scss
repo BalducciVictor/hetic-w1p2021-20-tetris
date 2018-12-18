@@ -1,0 +1,44 @@
+.end {
+	display: flex;
+	height: 100vh;
+	align-items: center;
+	flex-direction: column;
+	justify-content: center;
+
+	.end__title {
+		font-size: 80px;
+		text-transform: uppercase;
+	}
+
+	.end__img {
+		animation: shake 1s ease-in-out infinite;
+	}
+
+	@keyframes shake {
+		2% {
+			transform: translate(1px, -1px) rotate(-0.5deg);
+		}
+
+		5%, 90% {
+			transform: translate(2px, 3px) rotate(-0.5deg);
+		}
+
+		10% {
+			transform: translate(-3px, 3px) rotate(-0.5deg);
+		}
+
+		20%, 60% {
+			transform: translate(0px, -2px) rotate(-0.5deg);
+		}
+	}
+
+	.end__score {
+		font-size: 20px;
+	}
+
+	.end__instructions {
+		margin-top: 20px;
+		font-size: 20px;
+		text-align: center;
+	}
+}

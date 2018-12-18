@@ -1,0 +1,39 @@
+.home {
+	display: flex;
+	height: 100vh;
+	align-items: center;
+	flex-direction: column;
+	justify-content: center;
+
+	.home__logo {
+		position: absolute;
+		top: 0;
+		height: 400px;
+	}
+
+	.home__img {
+		margin-top: 100px;
+		animation: animate 3s ease infinite;
+	}
+
+	.home__img--factory {
+		position: absolute;
+		left: 0;
+		bottom: 0;
+	}
+
+	.home__instructions {
+		font-size: 20px;
+		text-align: center;
+	}
+
+	@keyframes animate {
+		50% {
+			transform: translateY(-30px);
+		}
+
+		100% {
+			transform: translateY(0);
+		}
+	}
+}

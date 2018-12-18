@@ -1,5 +1,16 @@
 body {
-  width: 100vw;
-  height: 100vh;
-  overflow: hidden;
+	width: 100vw;
+	height: 100vh;
+	overflow: hidden;
+	font-family: abc, sans-serif;
+	background-image: url("/img/back.jpg");
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	font-weight: bold;
+}
+
+@font-face {
+	font-family: "abc";
+	src: url("/fonts/abc.ttf") format("truetype");
 }

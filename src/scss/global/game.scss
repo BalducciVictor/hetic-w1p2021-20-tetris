@@ -1,0 +1,14 @@
+.game {
+	display: flex;
+	
+	justify-content: center;
+
+	.game__score {
+		position: absolute;
+		top: 5%;
+		font-size: 20px;
+	}
+	.game__zone{
+	 width: 100
+	}
+}
