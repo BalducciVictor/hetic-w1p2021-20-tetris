@@ -28,6 +28,25 @@
 		text-align: center;
 	}
 
+	.home__help {
+		transition: all 0.5s ease;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		margin-top: 20px;
+		text-transform: uppercase;
+		width: 200px;
+		height: 40px;
+		background: rgba(255, 255, 255, 0.5);
+		border: 3px solid #000000;
+		box-sizing: border-box;
+		border-radius: 5px;	
+
+		&:hover {
+			transform: scale(1.05);
+		} 
+	}
+
 	@keyframes animate {
 		50% {
 			transform: translateY(-30px);
