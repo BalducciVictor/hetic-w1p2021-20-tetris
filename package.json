@@ -1,7 +1,7 @@
 {
   "name": "sass",
   "version": "1.0.0",
-  "description": "",
+  "description": "Smog - Concept <br>",
   "main": "index.js",
   "scripts": {
     "dev": "parcel src/index.html src/screens/*.html",
@@ -13,5 +13,13 @@
   "devDependencies": {
     "node-sass": "^4.11.0",
     "parcel-bundler": "^1.10.3"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BalducciVictor/hetic-w1p2021-20-tetris.git"
+  },
+  "bugs": {
+    "url": "https://github.com/BalducciVictor/hetic-w1p2021-20-tetris/issues"
+  },
+  "homepage": "https://github.com/BalducciVictor/hetic-w1p2021-20-tetris#readme"
 }
