@@ -4,6 +4,7 @@
 	align-items: center;
 	flex-direction: column;
 	justify-content: center;
+	animation: fade 1s ease;
 
 	.home__logo {
 		position: absolute;
@@ -36,4 +37,15 @@
 			transform: translateY(0);
 		}
 	}
+
+	@keyframes fade {
+		from {
+			opacity: 0;
+		}
+	
+		to {
+			opacity: 1;
+		}
+	}
+
 }

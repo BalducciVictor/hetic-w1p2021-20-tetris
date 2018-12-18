@@ -22,3 +22,16 @@ function game() {
 
 
 }
+
+oxo.inputs.listenKeyOnce('enter', function() {
+	if (oxo.screens.getCurrentScreen !== 'end') {
+		oxo.screens.loadScreen('end', end);
+	}
+});
+
+function end() {
+	oxo.player.setScore(0);
+	smog = document.getElementById('smog')
+
+
+}
