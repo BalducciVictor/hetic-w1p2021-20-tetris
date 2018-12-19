@@ -25,19 +25,27 @@
 		position: absolute;
 	}
 }
-.sky{
-	position: absolute;
+
+.sky {
 	height: 450px;
 	border: 2px solid #fff;
 }
-.factory{
-	// position: absolute;
+
+.factory {
+	position: absolute;
+	height: 203px;
+	width: 419px;
 	background-image: url("/img/factory.png");
 	background-repeat: no-repeat;
 
 }
+.factory__zone{
+	height: 200px;
+	border: 2px solid red;
 
-.blackCloud{
+}
+.blackCloud {
+	position: absolute;
 	height: 100px;
 	width: 136.52px;
 	position: absolute;
@@ -46,6 +54,7 @@
 	background-size: cover;
 	background-repeat: no-repeat;
 }
+
 @keyframes bgScroll {
 	0% {
 		background-position: 0 0;
