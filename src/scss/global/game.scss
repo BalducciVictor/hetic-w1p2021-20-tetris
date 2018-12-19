@@ -1,10 +1,12 @@
 .game {
-	display: flex;
-	justify-content: center;
+	animation: bgScroll 30s linear infinite;
+	width: 100%;
 
 	.game__score {
 		position: absolute;
+		left: 50%;
 		top: 5%;
+		transform: translate(-50%, -50%);
 		font-size: 20px;
 	}
 
@@ -21,5 +23,28 @@
 		height: 63px;
 		bottom: 0;
 		position: absolute;
+	}
+}
+.factory{
+	// position: absolute;
+	background-image: url("/img/factory.png");
+	background-repeat: no-repeat;
+
+}
+
+.blackCloud{
+	position: absolute;
+	background-image: url("/img/enemy.png");
+	background-position: center;
+	background-size: cover;
+	background-repeat: no-repeat;
+}
+@keyframes bgScroll {
+	0% {
+		background-position: 0 0;
+	}
+
+	100% {
+		background-position: -1280px 0;
 	}
 }
