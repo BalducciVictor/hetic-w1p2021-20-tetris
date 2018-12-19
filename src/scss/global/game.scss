@@ -8,12 +8,13 @@
 		font-size: 20px;
 	}
 
-	.smog {
+	.game__smog {
 		height: 100px;
 		position: absolute;
+		left: 15%;
 	}
 
-	.floor {
+	.game__foor {
 		// background-color: rgba(0, 0, 0, .5);
 		width: 100%;
 		height: 148px;
