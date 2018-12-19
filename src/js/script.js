@@ -2,7 +2,7 @@ console.log('yolo');
 
 var direction; // Direction of the cloud
 var cloud; // Smogy
-var gravity = 237;
+var gravity = 40;
 var ground;
 
 oxo.inputs.listenKey('space', function() {
@@ -14,20 +14,27 @@ oxo.inputs.listenKey('space', function() {
 function game() {
 	var cloud = document.getElementById('cloud');
 	var ground = document.getElementById('ground');
-	oxo.elements.onCollisionWithElement(cloud, ground, function() {
-		oxo.screens.loadScreen('end');
-	});
+	
 
-	for (i = 0; i < gravity; i++) {
-		console.log('ok');
+	oxo.inputs.listenKey('space', function() {
+		oxo.animation.move(cloud, 'up', 30);
+	});
+	
+	for(i = 0; i < gravity; i++) {
 		setInterval(function() {
-			oxo.animation.move(cloud, 'down', 1.1);
+			oxo.animation.move(cloud, 'down', 1);
 		}, 800);
 	};
-	oxo.inputs.listenKey('space', function() {
-		oxo.animation.move(cloud, 'up', 100);
+
+	oxo.elements.onCollisionWithElement(cloud, ground, function() {
+		oxo.screens.loadScreen('end');
+
+		oxo.inputs.listenKey('space', function() {
+			if (oxo.screens.getCurrentScreen !== 'game') {
+				oxo.screens.loadScreen('game', game);
+			}
+		});
 	});
-
-
-
 }
+
+

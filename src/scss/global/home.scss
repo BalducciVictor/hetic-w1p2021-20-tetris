@@ -9,20 +9,15 @@
 	.home__logo {
 		position: absolute;
 		top: 0;
-		height: 400px;
+		height: 500px;
 	}
 
 	.home__img {
-		margin-top: 100px;
+		margin: 100px 0 50px 0;
 		animation: animate 3s ease infinite;
+		height: 200px;
 	}
-
-	.home__img--factory {
-		position: absolute;
-		left: 0;
-		bottom: 0;
-	}
-
+	
 	.home__instructions {
 		font-size: 20px;
 		text-align: center;
