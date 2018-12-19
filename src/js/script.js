@@ -17,7 +17,7 @@ function game() {
 	}, 500);
 
 	var cloud = document.getElementById('cloud');
-	oxo.animation.setPosition(cloud, { x: 0, y: 300 });
+	oxo.animation.setPosition(cloud, { x: 0, y: 350 });
 	var ground = document.getElementById('ground');
 
 	// Space to start
