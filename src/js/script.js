@@ -1,6 +1,10 @@
 var cloud;
 var gravity = 3;
 var ground;
+var size = 60;
+var xObstacle = 1280 / 60;
+var yObstacle = 400 / 60;
+var enemyInterval;
 
 // Space to start
 oxo.inputs.listenKey('space', function() {
@@ -12,57 +16,31 @@ oxo.inputs.listenKey('space', function() {
 function game() {
 
 
-	// Spawn factory
-	var factory = oxo.elements.createElement({
-		type: 'div',
-		class: 'factory',
-		styles: {
-			height: '233px',
-			width: '419px',
-			transform: 'translate(1280px, 523px)',
-		}
-	});
 
-	var moveInterval = setInterval(function() {
-		oxo.animation.move(factory, 'left', 2, true);
-	}, 40);
+	enemyInterval = setInterval(addBlackCloud, 5000);
 
-	
-	oxo.elements.onLeaveScreenOnce(factory, function() {
-		factory.remove();
-		clearInterval(moveInterval);
-	}, true);
+	// // Spawn factory
+	// var factory = oxo.elements.createElement({
+	// 	type: 'div',
+	// 	class: 'factory',
+	// 	styles: {
+	// 		height: '233px',
+	// 		width: '419px',
+	// 		transform: 'translate(1280px, 523px)',
+	// 	}
+	// });
 
-
-
-
-
-
-	// Spawn black cloud
-	var blackCloud = oxo.elements.createElement({
-		type: 'div',
-		class: 'blackCloud',
-		styles: {
-			height: '100px',
-			width: '136.52px',
-			transform: 'translate(1280px, 0)',
-		}
-	});
-
-	var moveInterval = setInterval(function() {
-		oxo.animation.move(blackCloud, 'left', 2, true);
-	}, 10);
+	// var moveInterval = setInterval(function() {
+	// 	oxo.animation.move(factory, 'left', 2, true);
+	// }, 40);
 
 	
-	oxo.elements.onLeaveScreenOnce(blackCloud, function() {
-		blackCloud.remove();
-		clearInterval(moveInterval);
-	}, true);
+	// oxo.elements.onLeaveScreenOnce(factory, function() {
+	// 	factory.remove();
+	// 	clearInterval(moveInterval);
+	// }, true);
 
 
-
-
-	
 
 
 	// Start scoring
@@ -91,22 +69,22 @@ function game() {
 	}, 10);
 
 	// Collision with foor
-	oxo.elements.onCollisionWithElement(cloud, factory, function() {
-		oxo.screens.loadScreen('end');
-		clearInterval(timer);
+	// oxo.elements.onCollisionWithElement(cloud, factory, function() {
+	// 	oxo.screens.loadScreen('end');
+	// 	clearInterval(timer);
 
-		// Reset space 
-		oxo.inputs.listenKey('space', function() {
-			if (oxo.screens.getCurrentScreen !== 'game') {
-				oxo.screens.loadScreen('game', game);
-			}
-		});
-	});
+	// 	// Reset space 
+	// 	oxo.inputs.listenKey('space', function() {
+	// 		if (oxo.screens.getCurrentScreen !== 'game') {
+	// 			oxo.screens.loadScreen('game', game);
+	// 		}
+	// 	});
+	// });
 
-	// 
+	// // 
 
 	oxo.elements.onCollisionWithElement(cloud, ground, function() {
-		oxo.screens.loadScreen('end');
+		// oxo.screens.loadScreen('end');
 		clearInterval(timer);
 
 		// Reset space 
@@ -117,7 +95,29 @@ function game() {
 		});
 	});
 
-	oxo.elements.onCollisionWithElement(cloud, blackCloud, function() {
+
+}
+
+
+function addBlackCloud(){
+	var obstacle = oxo.elements.createElement({
+		type: 'div',
+		class: 'blackCloud',
+		styles: {
+			transform:
+          "translate(" +
+          (oxo.utils.getRandomNumber(0, xObstacle - 1) * size + 1280) +
+          "px, " +
+          oxo.utils.getRandomNumber(0, yObstacle - 1) * size +
+          "px)"
+      },
+	});
+	var moveInterval = setInterval(function() {
+		oxo.animation.move(obstacle, 'left', 2, true);
+	}, 10);
+
+
+	oxo.elements.onCollisionWithElement(cloud, obstacle, function() {
 		oxo.screens.loadScreen('end');
 		clearInterval(timer);
 

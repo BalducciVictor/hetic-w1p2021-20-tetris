@@ -25,6 +25,11 @@
 		position: absolute;
 	}
 }
+.sky{
+	position: absolute;
+	height: 450px;
+	border: 2px solid #fff;
+}
 .factory{
 	// position: absolute;
 	background-image: url("/img/factory.png");
@@ -33,6 +38,8 @@
 }
 
 .blackCloud{
+	height: 100px;
+	width: 136.52px;
 	position: absolute;
 	background-image: url("/img/enemy.png");
 	background-position: center;
