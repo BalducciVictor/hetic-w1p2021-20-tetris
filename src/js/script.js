@@ -1,37 +1,33 @@
-var smog = new Image(100, 200);
-smog.src = '/src/img/cloud_happy.png'; 
+console.log('yolo');
 
+var direction; // Direction of the cloud
+var cloud; // Smogy
+var gravity = 237;
+var ground;
 
+oxo.inputs.listenKey('space', function() {
+    if (oxo.screens.getCurrentScreen !== 'game') {
+      oxo.screens.loadScreen('game', game);
+    }
+  });
 
+function game () {
+    var cloud = document.getElementById('cloud');
+    var ground = document.getElementById('ground');
+    oxo.elements.onCollisionWithElement(cloud, ground, function() {
+        oxo.screens.loadScreen('end');
+    });
 
-
-
-
-
-
-
-oxo.inputs.listenKeyOnce('space', function() {
-	if (oxo.screens.getCurrentScreen !== 'game') {
-		oxo.screens.loadScreen('game', game);
-	}
-});
-
-function game() {
-	oxo.player.setScore(0);
-	smog = document.getElementById('smog')
-
-
-}
-
-oxo.inputs.listenKeyOnce('enter', function() {
-	if (oxo.screens.getCurrentScreen !== 'end') {
-		oxo.screens.loadScreen('end', end);
-	}
-});
-
-function end() {
-	oxo.player.setScore(0);
-	smog = document.getElementById('smog')
+    for (i = 0; i < gravity; i++) {
+        console.log('ok');
+        setInterval(function() {
+            oxo.animation.move(cloud, 'down', 1.1);
+        }, 800);
+    };
+    oxo.inputs.listenKey('space', function() {
+        oxo.animation.move(cloud, 'up', 100);
+    });
+    
 
 
 }
