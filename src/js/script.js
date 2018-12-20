@@ -53,7 +53,7 @@ function game() {
 
 			boltInterval = setInterval(function() {
 				oxo.animation.move(shoot, 'right', 2, true);
-			}, 10);
+			}, 5);
 
 			oxo.elements.onLeaveScreen(shoot, function() {
 				shoot.remove();
@@ -82,7 +82,7 @@ function game() {
 
 			boltInterval = setInterval(function() {
 				oxo.animation.move(drop, 'down', 2, true);
-			}, 10);
+			}, 5);
 
 			oxo.elements.onCollisionWithElement(drop, ground, function() {
 				drop.remove();
