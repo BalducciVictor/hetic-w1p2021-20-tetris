@@ -1,0 +1,12 @@
+body {
+	width: 100vw;
+	height: 100vh;
+	overflow: hidden;
+	position: fixed;
+	font-family: 'Press Start 2P', cursive;
+	background-image: url("/img/back.png");
+	background-size: cover;
+	font-weight: bold;
+	pointer-events: none;
+	user-select: none;
+}

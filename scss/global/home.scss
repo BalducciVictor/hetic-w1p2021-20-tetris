@@ -1,0 +1,71 @@
+.home {
+	display: flex;
+	height: 100vh;
+	align-items: center;
+	flex-direction: column;
+	justify-content: center;
+	animation: fade 1s ease;
+
+	.home__logo {
+		position: absolute;
+		top: 0;
+		height: 500px;
+	}
+
+	.home__img {
+		margin: 100px 0 50px 0;
+		animation: animate 3s ease infinite;
+		height: 200px;
+	}
+	
+	.home__instructions {
+		font-size: 20px;
+		text-align: center;
+	}
+
+	.home__help {
+		transition: all 0.5s ease;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		margin-top: 20px;
+		text-transform: uppercase;
+		width: 200px;
+		height: 40px;
+		background: rgba(255, 255, 255, 0.5);
+		border: 3px solid #000000;
+		box-sizing: border-box;
+		border-radius: 5px;	
+		pointer-events: auto;
+
+	&:hover + .help__text{
+		display: block;
+		animation: fade .5s ease-in-out;
+	} 
+}
+.help__text{
+	position: absolute;
+	bottom: 10%;
+	display: none;
+	line-height: 140%;
+}
+@keyframes animate {
+		50% {
+			transform: translateY(-30px);
+		}
+
+		100% {
+			transform: translateY(0);
+		}
+	}
+
+	@keyframes fade {
+		0% {
+			opacity: 0;
+		}
+	
+		100% {
+			opacity: 1;
+		}
+	}
+}
