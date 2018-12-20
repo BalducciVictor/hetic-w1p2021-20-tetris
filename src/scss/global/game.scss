@@ -11,10 +11,27 @@
 	}
 
 	.game__smog {
-		height: 100px;
 		position: absolute;
+		height: 110px;
+		width: 140px;
+		// background-color: black;
 		left: 15%;
-		// transition: all .3s ease-in-out;
+		border-radius: 50%; 
+		z-index: 2;
+	}
+
+	.game__smog:before {
+		content: '';
+		position: absolute;
+		width: 150px;
+		height: 110px;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		background-image: url("/img/cloud_happy.png");
+		background-position: center;
+		background-repeat: no-repeat;
+		background-size: contain;
 	}
 
 	.game__foor {
@@ -33,23 +50,48 @@
 
 .factory {
 	position: absolute;
+	bottom: 18%;
+	height: 160px;
+	width: 400px;
+	z-index: 2;
+}
+
+.factory:before {
+	content: '';
+	position: absolute;
+	top: 40%;
+	left: 50%;
+	transform: translate(-50%, -50%);
 	height: 203px;
 	width: 419px;
 	background-image: url("/img/factory.png");
+	background-position: center;
 	background-repeat: no-repeat;
 
-
 }
-.factory__zone{
-	height: 200px;
-	// border: 2px solid red;
 
+.factory__zone {
+	height: 286px;
+	// border: 2px solid #fff;
 }
+
 .blackCloud {
 	position: absolute;
-	height: 100px;
-	width: 136.52px;
+	height: 110px;
+	width: 140px;
+	border-radius: 50%;
+	z-index: 2;
+	// background-color: black;
+}
+
+.blackCloud:before {
+	content: '';
 	position: absolute;
+	width: 150px;
+	height: 110px;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
 	background-image: url("/img/enemy.png");
 	background-position: center;
 	background-size: cover;
@@ -67,16 +109,18 @@
 	background-repeat: no-repeat;
 }
 
-.thunder{
+.thunder {
 	position: absolute;
 	height: 60px;
-	width: 50px;
+	width: 65px;
 	background-image: url("/img/thunder.png");
 	background-position: center;
 	background-size: cover;
 	background-repeat: no-repeat;
+	z-index: 1;
 }
-.rain{
+
+.rain {
 	position: absolute;
 	height: 60px;
 	width: 50px;
@@ -84,6 +128,7 @@
 	background-position: center;
 	background-size: cover;
 	background-repeat: no-repeat;
+	z-index: 1;
 }
 
 @keyframes bgScroll {

@@ -38,12 +38,18 @@
 		border-radius: 5px;	
 		pointer-events: auto;
 
-		&:hover {
-			transform: scale(1.05);
-		} 
-	}
-
-	@keyframes animate {
+	&:hover + .help__text{
+		display: block;
+		animation: fade .5s ease-in-out;
+	} 
+}
+.help__text{
+	position: absolute;
+	bottom: 10%;
+	display: none;
+	line-height: 140%;
+}
+@keyframes animate {
 		50% {
 			transform: translateY(-30px);
 		}
@@ -62,5 +68,4 @@
 			opacity: 1;
 		}
 	}
-
 }
