@@ -7,7 +7,7 @@ var xObstacle = 1280 / 60;
 var yObstacle = 400 / 60;
 var xObstacleFactory = 1280 / 60;
 var yObstacleFactory = 200;
-
+var speed = 6000;
 
 var enemyInterval;
 var factoryInterval;
@@ -26,9 +26,9 @@ oxo.inputs.listenKey('space', function() {
 
 function game() {
 
-	enemyInterval = setInterval(addBlackCloud, 5000);
-	factoryInterval = setInterval(addFactory, 5000);
-	planeInterval = setInterval(addPlane, 5000);
+	enemyInterval = setInterval(addBlackCloud, speed);
+	factoryInterval = setInterval(addFactory, speed);
+	planeInterval = setInterval(addPlane, speed);
 
 	oxo.inputs.listenKeys(["q", "z", "d", "a"], function(key){
 		var position = oxo.animation.getPosition(cloud);
@@ -97,7 +97,7 @@ function game() {
 	oxo.player.setScore(0);
 	timer = setInterval(function() {
 		oxo.player.addToScore(1);
-	}, 500);
+	}, 1000);
 
 	cloud = document.getElementById('cloud');
 	oxo.animation.setPosition(cloud, { x: 0, y: 350 });
