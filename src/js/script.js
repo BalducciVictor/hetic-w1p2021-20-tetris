@@ -20,6 +20,8 @@ oxo.inputs.listenKey('space', function() {
 });
 
 function game() {
+	// Reset score of player
+	oxo.player.setScore(0);
 
 	// Set volume sound of game 
 	var gameSound = document.getElementById('gameSound');
