@@ -1,8 +1,10 @@
-Smog - Concept <br>
+# Semaine Intensive JavaScript - Equipe Tetris
 
-Equipe 20 Tétris <br>
+<p align="center">
+<img src="src/img/logo_temp.png" width="500">
+  </p>
 
-Membres: <br>
+Membres: <br><br>
 Balducci Victor <br>
 Fennane Ryan <br>
 Shao Jacky <br>
@@ -10,4 +12,4 @@ Louzoun Nathanael <br>
 Maddi Feriel <br>
 
 Lien du jeu : <br><br>
-https://balduccivictor.github.io/hetic-w1p2021-20-tetris/
+https://smog.netlify.com/
