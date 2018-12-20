@@ -8,12 +8,14 @@ var yObstacle = 400 / 60;
 var xObstacleFactory = 1280 / 60;
 var yObstacleFactory = 200;
 
+
 var enemyInterval;
 var factoryInterval;
 var moveInterval;
 var blackInterval;
 var facInterval;
-
+var planeInterval;
+var canShoot = true;
 // Space to start
 oxo.inputs.listenKey('space', function() {
 	if (oxo.screens.getCurrentScreen !== 'game') {
@@ -25,12 +27,52 @@ function game() {
 
 	enemyInterval = setInterval(addBlackCloud, 5000);
 	factoryInterval = setInterval(addFactory, 5000);
+	planeInterval = setInterval(addPlane, 5000);
+
+	oxo.inputs.listenKeys(["q", "z", "d", "a"], function(key){
+		var position = oxo.animation.getPosition(cloud);
+		if (!canShoot) {
+			return;
+		}
+		canShoot = false;
+		setTimeout(function(){
+				canShoot = true;
+
+		}, 1500);
+
+		addBlackCloud();
+		addPlane();
+		addFactory();
+
+		if (key === "d") {
+			var shoot = oxo.elements.createElement({
+				class: 'thunder',
+				styles: {
+					transform: "translate(" +	(250) +"px, " + position.y  + "px)"
+				},
+				appendTo: '#sky'
+			});
+
+			boltInterval = setInterval(function() {
+				oxo.animation.move(shoot, 'right', 2, true);
+			}, 10);
+
+
+			oxo.elements.onCollisionWithElement(shoot, obstacle, function(){
+				oxo.player.addToScore(10);
+				shoot.remove();
+				obstacle.remove();
+			});
+			
+
+		}
+	});
 
 	// Start scoring
-	oxo.player.setScore(0);
+	oxo.player.setScore(290);
 	timer = setInterval(function() {
 		oxo.player.addToScore(1);
-	}, 1000);
+	}, 500);
 
 	cloud = document.getElementById('cloud');
 	oxo.animation.setPosition(cloud, { x: 0, y: 350 });
@@ -51,48 +93,45 @@ function game() {
 	}, 10);
 
 	oxo.elements.onCollisionWithElement(cloud, ground, end);
-
+	
 }
-	function addBlackCloud(){
+
+
+function addBlackCloud() {
 	var obstacle = oxo.elements.createElement({
 		class: 'blackCloud move',
 		styles: {
-			transform:
-          "translate(" +
-          (oxo.utils.getRandomNumber(0, xObstacle - 1) * size + 1280) +
-          "px, " +
-          oxo.utils.getRandomNumber(0, yObstacle - 1) * size + 
-          "px)"
-      },
-      appendTo: '#sky'
+			transform: "translate(" +
+				(oxo.utils.getRandomNumber(0, xObstacle - 1) * size + 1280) +
+				"px, " +
+				oxo.utils.getRandomNumber(0, yObstacle - 1) * size +
+				"px)"
+		},
+		appendTo: '#sky'
 	});
-		
-	blackInterval = setInterval(function() {
+
+	facInterval = setInterval(function() {
 		oxo.animation.move(obstacle, 'left', 2, true);
 	}, 10);
 
-	// oxo.elements.onLeaveScreenOnce(obstacle, function(){
-	// 	obstacle.remove();
-	// 	clearInterval(blackInterval);
-	// }, true );
+	oxo.elements.onLeaveScreenOnce(obstacle, remove);
 
 	oxo.elements.onCollisionWithElement(cloud, obstacle, end);
+ 
 }
-
-function addFactory(){
-	var obstacle = oxo.elements.createElement({
+function addFactory() {
+	 var obstacle = oxo.elements.createElement({
 		class: 'factory move',
 		styles: {
-			transform:
-          "translate(" +
-          (oxo.utils.getRandomNumber(0, xObstacleFactory - 1) * size + 1280) +
-          "px, " +
-          (83) + 
-          "px)"
-      },
-      appendTo: '#factory__zone'
+			transform: "translate(" +
+				(oxo.utils.getRandomNumber(0, xObstacleFactory - 1) * size + 1280) +
+				"px, " +
+				(83) +
+				"px)"
+		},
+		appendTo: '#factory__zone'
 	});
-		
+
 	facInterval = setInterval(function() {
 		oxo.animation.move(obstacle, 'left', 2, true);
 	}, 10);
@@ -102,31 +141,61 @@ function addFactory(){
 	oxo.elements.onCollisionWithElement(cloud, obstacle, end);
 }
 
-function remove() {
-  var allMovableElements = document.querySelectorAll(".move");
-  for (let i = 0; i < allMovableElements.length; i++) {
-    //get position.x to  if it is out of the screen (on the left)
-    var position = oxo.animation.getPosition(allMovableElements[i]);
-    if (position.x < -200) {
-      allMovableElements[i].remove();
-    }
+
+function addPlane() {
+  if (oxo.player.getScore() > 300) {
+    var obstacle = oxo.elements.createElement({
+      class: "plane move",
+      obstacle: true,
+      styles: {
+        transform: "translate(" +
+				(oxo.utils.getRandomNumber(0, xObstacle - 1) * size + 1280) +
+				"px, " +
+				oxo.utils.getRandomNumber(0, yObstacle - 1) * size +
+				"px)"
+		},
+		appendTo: '#sky'
+    });
+
+    planeInterval = setInterval(function() {
+		oxo.animation.move(obstacle, 'left', 2, true);
+	}, 10);
+
+    oxo.elements.onLeaveScreenOnce(obstacle, remove);
+
+    oxo.elements.onCollisionWithElement(cloud, obstacle, end);
   }
 }
 
 
+function remove() {
+	var allMovableElements = document.querySelectorAll(".move");
+	for (let i = 0; i < allMovableElements.length; i++) {
+		//get position.x to  if it is out of the screen (on the left)
+		var position = oxo.animation.getPosition(allMovableElements[i]);
+		if (position.x < -200) {
+			allMovableElements[i].remove();
+		}
+	}
+}
+
 function end() {
-// Collision with foor
+
+	// Collision with floor
 	oxo.screens.loadScreen('end');
+
 	clearInterval(timer);
 	clearInterval(factoryInterval);
 	clearInterval(enemyInterval);
+	clearInterval(planeInterval);
 	clearInterval(moveInterval);
+	clearInterval(facInterval);
+	clearInterval(blackInterval);
 
 	// Reset space 
-	oxo.inputs.listenKey('space', function() {
+	oxo.inputs.listenKeyOnce('enter', function() {
 		if (oxo.screens.getCurrentScreen !== 'game') {
 			oxo.screens.loadScreen('game', game);
 		}
 	});
 }
-

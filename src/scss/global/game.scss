@@ -38,6 +38,7 @@
 	background-image: url("/img/factory.png");
 	background-repeat: no-repeat;
 
+
 }
 .factory__zone{
 	height: 200px;
@@ -54,6 +55,28 @@
 	background-size: cover;
 	background-repeat: no-repeat;
 }
+
+.plane {
+	position: absolute;
+	height: 100px;
+	width: 136.52px;
+	position: absolute;
+	background-image: url("/img/plane.png");
+	background-position: center;
+	background-size: cover;
+	background-repeat: no-repeat;
+}
+
+.thunder{
+	position: absolute;
+	height: 60px;
+	width: 50px;
+	background-image: url("/img/thunder.png");
+	background-position: center;
+	background-size: cover;
+	background-repeat: no-repeat;
+}
+
 
 @keyframes bgScroll {
 	0% {
