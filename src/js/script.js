@@ -16,6 +16,7 @@ var blackInterval;
 var facInterval;
 var planeInterval;
 var canShoot = true;
+
 // Space to start
 oxo.inputs.listenKey('space', function() {
 	if (oxo.screens.getCurrentScreen !== 'game') {
@@ -40,10 +41,6 @@ function game() {
 
 		}, 1500);
 
-		addBlackCloud();
-		addPlane();
-		addFactory();
-
 		if (key === "d") {
 			var shoot = oxo.elements.createElement({
 				class: 'thunder',
@@ -66,10 +63,33 @@ function game() {
 			
 
 		}
+		if (key === "a") {
+			var shoot = oxo.elements.createElement({
+				class: 'rain',
+				styles: {
+					transform: "translate(" +	(250) +"px, " + position.y  + "px)"
+				},
+				appendTo: '#sky'
+			});
+
+			boltInterval = setInterval(function() {
+				oxo.animation.move(shoot, 'down', 2, true);
+			}, 10);
+
+
+			oxo.elements.onCollisionWithElement(shoot, obstacle, function(){
+				oxo.player.addToScore(10);
+				shoot.remove();
+				obstacle.remove();
+			});
+			
+
+		}
+
 	});
 
 	// Start scoring
-	oxo.player.setScore(290);
+	oxo.player.setScore(0);
 	timer = setInterval(function() {
 		oxo.player.addToScore(1);
 	}, 500);
@@ -95,7 +115,6 @@ function game() {
 	oxo.elements.onCollisionWithElement(cloud, ground, end);
 	
 }
-
 
 function addBlackCloud() {
 	var obstacle = oxo.elements.createElement({

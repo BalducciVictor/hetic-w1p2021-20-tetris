@@ -76,7 +76,15 @@
 	background-size: cover;
 	background-repeat: no-repeat;
 }
-
+.rain{
+	position: absolute;
+	height: 60px;
+	width: 50px;
+	background-image: url("/img/rain.png");
+	background-position: center;
+	background-size: cover;
+	background-repeat: no-repeat;
+}
 
 @keyframes bgScroll {
 	0% {
