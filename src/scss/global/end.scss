@@ -16,31 +16,13 @@
 		height: 200px;
 	}
 
-	@keyframes shake {
-		2% {
-			transform: translate(1px, -1px) rotate(-0.5deg);
-		}
-
-		5%, 90% {
-			transform: translate(2px, 3px) rotate(-0.5deg);
-		}
-
-		10% {
-			transform: translate(-3px, 3px) rotate(-0.5deg);
-		}
-
-		20%, 60% {
-			transform: translate(0px, -2px) rotate(-0.5deg);
-		}
-	}
-
 	.end__score {
 		font-size: 20px;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
 
-		.score__data{
+		.score__data {
 			margin-top: 20px;
 			font-size: 30px;
 		}
@@ -50,5 +32,23 @@
 		margin-top: 20px;
 		font-size: 20px;
 		text-align: center;
+	}
+}
+
+@keyframes shake {
+	2% {
+		transform: translate(1px, -1px) rotate(-0.5deg);
+	}
+
+	5%, 90% {
+		transform: translate(2px, 3px) rotate(-0.5deg);
+	}
+
+	10% {
+		transform: translate(-3px, 3px) rotate(-0.5deg);
+	}
+
+	20%, 60% {
+		transform: translate(0px, -2px) rotate(-0.5deg);
 	}
 }

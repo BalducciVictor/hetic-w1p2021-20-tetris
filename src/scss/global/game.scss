@@ -14,9 +14,8 @@
 		position: absolute;
 		height: 110px;
 		width: 140px;
-		// background-color: black;
 		left: 15%;
-		border-radius: 50%; 
+		border-radius: 50%;
 		z-index: 2;
 	}
 
@@ -29,13 +28,9 @@
 		left: 50%;
 		transform: translate(-50%, -50%);
 		background-image: url("/img/cloud_happy.png");
-		background-position: center;
-		background-repeat: no-repeat;
-		background-size: contain;
 	}
 
-	.game__foor {
-		// background-color: rgba(0, 0, 0, .5);
+	.game__floor {
 		width: 100%;
 		height: 63px;
 		bottom: 0;
@@ -45,90 +40,86 @@
 
 .sky {
 	height: 450px;
-	// border: 2px solid #fff;
+
+	.sky__obstacle--cloud {
+		position: absolute;
+		height: 110px;
+		width: 140px;
+		border-radius: 50%;
+		z-index: 2;
+	}
+
+	.sky__obstacle--cloud:before {
+		content: '';
+		position: absolute;
+		width: 150px;
+		height: 110px;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		background-image: url("/img/enemy.png");
+		background-position: center;
+		background-size: cover;
+		background-repeat: no-repeat;
+	}
+
+	.sky__obstacle--plane {
+		position: absolute;
+		height: 100px;
+		width: 136.52px;
+		position: absolute;
+		background-image: url("/img/plane.png");
+		background-position: center;
+		background-size: cover;
+		background-repeat: no-repeat;
+	}
+
+	.sky__thunder {
+		position: absolute;
+		height: 60px;
+		width: 65px;
+		background-image: url("/img/thunder.png");
+		background-position: center;
+		background-size: cover;
+		background-repeat: no-repeat;
+		z-index: 1;
+	}
+
+	.sky__rain {
+		position: absolute;
+		height: 60px;
+		width: 50px;
+		background-image: url("/img/rain.png");
+		background-position: center;
+		background-size: cover;
+		background-repeat: no-repeat;
+		z-index: 1;
+	}
 }
 
 .factory {
-	position: absolute;
-	bottom: 18%;
-	height: 160px;
-	width: 400px;
-	z-index: 2;
-}
-
-.factory:before {
-	content: '';
-	position: absolute;
-	top: 40%;
-	left: 50%;
-	transform: translate(-50%, -50%);
-	height: 203px;
-	width: 419px;
-	background-image: url("/img/factory.png");
-	background-position: center;
-	background-repeat: no-repeat;
-
-}
-
-.factory__zone {
 	height: 286px;
-	// border: 2px solid #fff;
-}
 
-.blackCloud {
-	position: absolute;
-	height: 110px;
-	width: 140px;
-	border-radius: 50%;
-	z-index: 2;
-	// background-color: black;
-}
+	.factory__obstacle {
+		position: absolute;
+		bottom: 18%;
+		height: 160px;
+		width: 400px;
+		z-index: 2;
+	}
 
-.blackCloud:before {
-	content: '';
-	position: absolute;
-	width: 150px;
-	height: 110px;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
-	background-image: url("/img/enemy.png");
-	background-position: center;
-	background-size: cover;
-	background-repeat: no-repeat;
-}
-
-.plane {
-	position: absolute;
-	height: 100px;
-	width: 136.52px;
-	position: absolute;
-	background-image: url("/img/plane.png");
-	background-position: center;
-	background-size: cover;
-	background-repeat: no-repeat;
-}
-
-.thunder {
-	position: absolute;
-	height: 60px;
-	width: 65px;
-	background-image: url("/img/thunder.png");
-	background-position: center;
-	background-size: cover;
-	background-repeat: no-repeat;
-	z-index: 1;
-}
-
-.rain {
-	position: absolute;
-	height: 60px;
-	width: 50px;
-	background-image: url("/img/rain.png");
-	background-position: center;
-	background-size: cover;
-	background-repeat: no-repeat;
-	z-index: 1;
+	.factory__obstacle:before {
+		content: '';
+		position: absolute;
+		top: 40%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		height: 203px;
+		width: 419px;
+		background-image: url("/img/factory.png");
+		background-position: center;
+		background-repeat: no-repeat;
+	}
 }
 
 @keyframes bgScroll {
